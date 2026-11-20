@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><title>Nouveau rythme</title>
+<style>
+body{margin:0;background:#f3f4f6;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#1f2937}
+.haut{background:#1f2937;color:#fff;padding:14px 28px;display:flex;justify-content:space-between;align-items:center}
+.haut b{font-size:18px}
+.haut span{font-size:14px;opacity:.8}
+.page{max-width:1100px;margin:24px auto;padding:0 24px}
+.fil{font-size:14px;color:#6b7280;margin-bottom:10px}
+.carte{background:#fff;border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.12);padding:24px 28px}
+h1{font-size:24px;margin:0 0 18px}
+.reglages{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start;margin-bottom:14px}
+.champ label.titre{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:8px}
+.ligne{display:flex;align-items:flex-start;gap:14px}
+.glisse{width:230px}
+.glisse input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:18px;margin:0;background:transparent;display:block}
+.glisse input[type=range]::-webkit-slider-runnable-track{height:6px;background:#cbd5e1;border-radius:3px}
+.glisse input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#2563eb;border:2px solid #fff;box-shadow:0 0 0 1px #2563eb;margin-top:-6px;cursor:pointer}
+.grad{position:relative;height:30px;margin-top:2px}
+.grad i{position:absolute;top:0;width:1.5px;height:8px;background:#6b7280;transform:translateX(-50%)}
+.grad b{position:absolute;top:11px;font-size:11px;font-weight:500;color:#6b7280;transform:translateX(-50%)}
+.boite{display:flex;align-items:center;gap:6px;font-size:14px;color:#374151}
+.boite input{width:62px;height:34px;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:8px;padding:0 8px;font-size:16px;font-weight:600;text-align:center;font-family:inherit;color:#1f2937}
+.nom input{width:340px;height:36px;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:8px;padding:0 10px;font-size:16px;font-family:inherit;color:#1f2937}
+.aide{font-size:12px;color:#6b7280;margin-top:2px}
+.fixe{height:34px;display:flex;align-items:center;font-size:17px;font-weight:600}
+details.avance{margin:6px 0 14px;border:1px solid #e5e7eb;border-radius:10px;padding:10px 14px;background:#fafafa}
+details.avance summary{cursor:pointer;font-size:14px;font-weight:600;color:#374151}
+.tol{display:flex;align-items:flex-start;gap:28px;margin-top:14px;flex-wrap:wrap}
+.petit{border:1px solid #cbd5e1;background:#fff;border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer;margin-top:-2px}
+.zone{border:1px solid #e5e7eb;border-radius:10px;padding:10px 8px 4px;margin:8px 0 22px;background:#fff}
+.zone .z{cursor:pointer}
+.boutons{display:flex;justify-content:center;gap:16px}
+.bouton{border-radius:10px;padding:12px 28px;font-size:16px;font-weight:600;border:1px solid #2563eb;cursor:pointer;user-select:none}
+.sec{background:#fff;color:#2563eb}
+.prim{background:#2563eb;color:#fff}
+</style></head><body>
+<div class="haut"><b>Serrure à frappes</b><span>Connecté : super-administrateur</span></div>
+<div class="page">
+<div class="fil">Gérer les combinaisons › Nouveau rythme</div>
+<div class="carte">
+<h1>Nouveau rythme</h1>
+<div class="champ nom" style="margin-bottom:18px"><label class="titre">Nom du rythme</label><input type="text" id="nom" value="Rythme de démonstration"></div>
+<div class="reglages">
+<div class="champ"><label class="titre">Tempo (BPM)</label>
+<div class="ligne"><div class="glisse"><input type="range" id="r-bpm"><div class="grad" id="g-bpm"></div></div>
+<div class="boite"><input type="number" id="n-bpm"></div></div>
+<div class="aide">de 60 à 120, curseur de 10 en 10</div></div>
+<div class="champ"><label class="titre">Nombre de mesures</label>
+<div class="ligne"><div class="glisse" style="width:150px"><input type="range" id="r-mes"><div class="grad" id="g-mes"></div></div>
+<div class="boite"><input type="number" id="n-mes"></div></div>
+<div class="aide" id="aide-mes"></div></div>
+<div class="champ"><label class="titre">Mesure</label><div class="fixe">4/4</div><div class="aide">toujours 4 temps</div></div>
+<div class="champ"><label class="titre">Durée</label><div class="fixe" id="duree"></div><div class="aide">10 s au maximum</div></div>
+<div class="champ"><label class="titre">Frappes</label><div class="fixe" id="nb"></div><div class="aide">2 au minimum</div></div>
+</div>
+<details class="avance" id="avance"><summary>Options avancées</summary>
+<div class="tol"><div class="champ"><label class="titre">Tolérance</label>
+<div class="ligne"><div class="glisse"><input type="range" id="r-tol"><div class="grad" id="g-tol"></div></div>
+<div class="boite"><input type="number" id="n-tol"><span>ms</span></div></div>
+<div class="aide">écart accepté sur chaque intervalle, curseur de 10 en 10 ms, case pour une valeur exacte</div></div>
+<span class="petit" id="defaut">Valeur par défaut</span></div>
+<div class="aide" style="margin-top:8px">Réservé aux utilisateurs experts en rythme ou en musique.</div></details>
+<div class="zone" id="zone"></div>
+<div class="boutons"><div class="bouton sec" id="jouer">▶ Jouer le rythme</div><div class="bouton prim" id="enreg">Enregistrer le rythme</div></div>
+<div id="msg" style="text-align:center;font-size:14px;margin-top:12px;min-height:18px"></div>
+</div></div>
+<script>
+const LARGEUR=1000, MARGE=40, LIGNE_Y=120, DECAL=16;
+const BLEU="#2563eb", ORANGE="#e67e22";
+const DEFAUT_TOL=40;
+const etat={bpm:90,mes:3,tol:DEFAUT_TOL,frappes:[[0,4,6,8],[0,3,8,12],[0,4,10,12],[],[]]};
+let anim=null, ctx=null;
+
+const maxMes=b=>Math.floor(b/24);
+const $=id=>document.getElementById(id);
+
+function graduations(idGrad,idRange,mini,maxi,pas){
+  const g=$(idGrad), W=g.parentElement.clientWidth||g.parentElement.getBoundingClientRect().width;
+  const L=parseFloat(g.parentElement.style.width)||230;
+  let h="";
+  for(let v=mini;v<=maxi;v+=pas){
+    const x=9+(v-mini)/(maxi-mini)*(L-18);
+    h+=`<i style="left:${x}px"></i><b style="left:${x}px">${v}</b>`;
+  }
+  g.innerHTML=h;
+}
+function reglerRange(idR,mini,maxi,pas){
+  const r=$(idR); r.min=mini; r.max=maxi; r.step=pas;
+}
+function lierChamp(cle,idR,idN,mini,maxiFn,apres){
+  const r=$(idR), n=$(idN);
+  r.addEventListener("input",()=>{etat[cle]=+r.value; n.value=etat[cle]; apres();});
+  n.addEventListener("change",()=>{
+    let v=Math.round(+n.value); if(isNaN(v)) v=etat[cle];
+    v=Math.max(mini,Math.min(maxiFn(),v));
+    etat[cle]=v; n.value=v; r.value=v; apres();
+  });
+}
+function majTout(){
+  const mx=maxMes(etat.bpm);
+  if(etat.mes>mx) etat.mes=mx;
+  reglerRange("r-mes",1,mx,1);
+  const lm=mx>=2?150:150;
+  graduations("g-mes","r-mes",1,mx,1);
+  $("n-mes").min=1; $("n-mes").max=mx;
+  $("r-bpm").value=etat.bpm; $("n-bpm").value=etat.bpm;
+  $("r-mes").value=etat.mes; $("n-mes").value=etat.mes;
+  $("r-tol").value=etat.tol; $("n-tol").value=etat.tol;
+  $("aide-mes").textContent=`de 1 en 1, maximum ${mx} à ${etat.bpm} BPM`;
+  const d=etat.mes*240/etat.bpm;
+  $("duree").textContent=d.toFixed(1).replace(".",",")+" s";
+  dessiner(MARGE);
+}
+function nbFrappes(){return etat.frappes.slice(0,etat.mes).reduce((a,b)=>a+b.length,0);}
+function dessiner(curseurX){
+  $("nb").textContent=nbFrappes();
+  const M=etat.mes, lm=(LARGEUR-2*MARGE)/M, pas=(lm-2*DECAL)/16;
+  let p=`<line x1="${MARGE}" y1="${LIGNE_Y}" x2="${LARGEUR-MARGE}" y2="${LIGNE_Y}" stroke="#374151" stroke-width="2.5"/>`;
+  for(let m=0;m<=M;m++){
+    const x=MARGE+m*lm;
+    p+=`<line x1="${x}" y1="${LIGNE_Y-52}" x2="${x}" y2="${LIGNE_Y+52}" stroke="#111827" stroke-width="4" stroke-linecap="round"/>`;
+  }
+  for(let m=0;m<M;m++){
+    const x0=MARGE+m*lm;
+    p+=`<text x="${x0+lm/2}" y="${LIGNE_Y-66}" text-anchor="middle" font-size="14" font-weight="600" fill="#374151">Mesure ${m+1}</text>`;
+    for(let k=0;k<16;k++){
+      const x=x0+DECAL+k*pas;
+      let h,w,c;
+      if(k%4==0){h=30;w=2.5;c="#374151"}else if(k%2==0){h=20;w=2;c="#6b7280"}else{h=11;w=1.5;c="#9ca3af"}
+      const f=etat.frappes[m].includes(k);
+      if(f){c=BLEU;w+=1}
+      p+=`<line x1="${x}" y1="${LIGNE_Y-h}" x2="${x}" y2="${LIGNE_Y+h}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
+      if(f) p+=`<circle cx="${x}" cy="${LIGNE_Y}" r="9" fill="${BLEU}" stroke="#fff" stroke-width="2"/>`;
+      if(k%4==0) p+=`<text x="${x}" y="${LIGNE_Y+52}" text-anchor="middle" font-size="12" fill="#6b7280">${k/4+1}</text>`;
+      p+=`<rect class="z" data-m="${m}" data-k="${k}" x="${x-pas/2}" y="${LIGNE_Y-45}" width="${pas}" height="90" fill="transparent"/>`;
+    }
+  }
+  p+=`<g id="cur" transform="translate(${curseurX-MARGE},0)"><line x1="${MARGE}" y1="${LIGNE_Y-52}" x2="${MARGE}" y2="${LIGNE_Y+52}" stroke="${ORANGE}" stroke-width="3.5" stroke-linecap="round"/><polygon points="${MARGE-8},${LIGNE_Y-62} ${MARGE+8},${LIGNE_Y-62} ${MARGE},${LIGNE_Y-48}" fill="${ORANGE}"/></g>`;
+  const leg=[["barre","barre de mesure (non cliquable)"],["temps","temps"],["croche","croche"],["double","double-croche"],["frappe","frappe"],["cur","curseur de lecture"]];
+  let lx=40; const ly=LIGNE_Y+92;
+  for(const [g,t] of leg){
+    if(g=="barre") p+=`<line x1="${lx}" y1="${ly-10}" x2="${lx}" y2="${ly+10}" stroke="#111827" stroke-width="4" stroke-linecap="round"/>`;
+    else if(g=="temps") p+=`<line x1="${lx}" y1="${ly-9}" x2="${lx}" y2="${ly+9}" stroke="#374151" stroke-width="2.5" stroke-linecap="round"/>`;
+    else if(g=="croche") p+=`<line x1="${lx}" y1="${ly-6}" x2="${lx}" y2="${ly+6}" stroke="#6b7280" stroke-width="2" stroke-linecap="round"/>`;
+    else if(g=="double") p+=`<line x1="${lx}" y1="${ly-3.5}" x2="${lx}" y2="${ly+3.5}" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/>`;
+    else if(g=="frappe") p+=`<circle cx="${lx}" cy="${ly}" r="7" fill="${BLEU}"/>`;
+    else p+=`<line x1="${lx}" y1="${ly-10}" x2="${lx}" y2="${ly+10}" stroke="${ORANGE}" stroke-width="3.5" stroke-linecap="round"/>`;
+    p+=`<text x="${lx+14}" y="${ly+4}" font-size="13" fill="#4b5563">${t}</text>`;
+    lx+=24+t.length*7+22;
+  }
+  $("zone").innerHTML=`<svg viewBox="0 0 ${LARGEUR} 235" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, Segoe UI, Roboto, Arial, sans-serif">${p}</svg>`;
+  document.querySelectorAll(".z").forEach(r=>r.addEventListener("click",()=>{
+    if(anim) return;
+    const m=+r.dataset.m,k=+r.dataset.k,a=etat.frappes[m],i=a.indexOf(k);
+    if(i>=0) a.splice(i,1); else a.push(k);
+    dessiner(MARGE);
+  }));
+}
+function bip(){
+  if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.frequency.value=880; g.gain.setValueAtTime(.25,ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.12);
+  o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+.13);
+}
+function jouer(){
+  if(anim){cancelAnimationFrame(anim); anim=null; $("jouer").textContent="▶ Jouer le rythme"; dessiner(MARGE); return;}
+  const M=etat.mes, lm=(LARGEUR-2*MARGE)/M, pas=(lm-2*DECAL)/16;
+  const dm=240/etat.bpm, total=M*dm;
+  const temps=[];
+  for(let m=0;m<M;m++) for(const k of etat.frappes[m]) temps.push((m*16+k)*dm/16);
+  temps.sort((a,b)=>a-b);
+  let joues=0; const t0=performance.now();
+  $("jouer").textContent="■ Arrêter";
+  const pas_anim=now=>{
+    const t=(now-t0)/1000;
+    if(t>=total){anim=null; $("jouer").textContent="▶ Jouer le rythme"; dessiner(MARGE); return;}
+    while(joues<temps.length && temps[joues]<=t){bip(); joues++;}
+    const m=Math.min(M-1,Math.floor(t/dm)), u=(t-m*dm)/dm;
+    const x=MARGE+m*lm+DECAL+u*16*pas;
+    document.getElementById("cur").setAttribute("transform",`translate(${x-MARGE},0)`);
+    anim=requestAnimationFrame(pas_anim);
+  };
+  anim=requestAnimationFrame(pas_anim);
+}
+reglerRange("r-bpm",60,120,10); graduations("g-bpm","r-bpm",60,120,10);
+reglerRange("r-tol",10,100,10); graduations("g-tol","r-tol",10,100,10);
+$("n-bpm").min=60; $("n-bpm").max=120; $("n-tol").min=10; $("n-tol").max=100;
+lierChamp("bpm","r-bpm","n-bpm",60,()=>120,majTout);
+lierChamp("mes","r-mes","n-mes",1,()=>maxMes(etat.bpm),majTout);
+lierChamp("tol","r-tol","n-tol",10,()=>100,majTout);
+$("defaut").addEventListener("click",()=>{etat.tol=DEFAUT_TOL; majTout();});
+$("jouer").addEventListener("click",jouer);
+$("enreg").addEventListener("click",()=>{
+  const m=$("msg");
+  if(nbFrappes()<2){m.style.color="#b91c1c";m.textContent="Un rythme doit contenir au moins 2 frappes.";}
+  else{m.style.color="#15803d";m.textContent="Rythme enregistré.";}
+});
+majTout();
+</script>
+</body></html>
