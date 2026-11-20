@@ -4,6 +4,7 @@ __pycache__/
 .pytest_cache/
 .coverage
 htmlcov/
+.ipynb_checkpoints/
 
 .env
 .env.*
@@ -11,3 +12,13 @@ htmlcov/
 
 data/
 instance/
+
+*.db
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+travail/
+
+.DS_Store
